@@ -16,15 +16,16 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF075E54),
-          secondary: const Color(0xFF128C7E),
+          seedColor: const Color(0xFF4BA586),
+          surfaceTint: const Color(0xFF4BA586),
         ),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF075E54),
-          secondary: const Color(0xFF128C7E),
+          seedColor: const Color(0xFF4BA586),
+          surfaceTint: const Color(0xFF222C32),
+          background: const Color(0xFF131B20),
           brightness: Brightness.dark,
         ),
       ),
