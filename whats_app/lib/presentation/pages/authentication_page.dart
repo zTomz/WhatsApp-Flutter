@@ -20,7 +20,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   void initState() {
     super.initState();
 
-    emailController = TextEditingController(text: "tom@mail.com");
+    emailController = TextEditingController(text: "test@mail.com");
     passwordController = TextEditingController(text: "12345678");
     confirmPasswordController = TextEditingController();
   }
@@ -84,13 +84,13 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (!isSignIn) {
-                        await PocketBaseApp.createAccount(
+                        await PocketBaseApp().createAccount(
                           emailController.text,
                           passwordController.text,
                           confirmPasswordController.text,
                         );
                       } else {
-                        await PocketBaseApp.authWithPassword(
+                        await PocketBaseApp().authWithPassword(
                           emailController.text,
                           passwordController.text,
                         );
