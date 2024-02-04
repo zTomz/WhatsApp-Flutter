@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:whats_app/extensions/navigation_extension.dart';
 import 'package:whats_app/extensions/theme_extension.dart';
 import 'package:whats_app/models/chat/chat.dart';
+import 'package:whats_app/models/message/message.dart';
+import 'package:whats_app/pocketbase/pocketbase_app.dart';
 import 'package:whats_app/presentation/widgets/chat_image.dart';
 
 class ChatPage extends StatefulWidget {
@@ -27,11 +29,22 @@ class _ChatPageState extends State<ChatPage> {
     messageController.addListener(() {
       setState(() {});
     });
+
+    pocketbase.collection('messages').subscribe('*', (e) {
+      /// Only update the state if the message is from the chat
+      if (e.record != null) {
+        final message = Message.fromJson(e.record!.toJson());
+        if (message.chat == widget.chat.id) {
+          setState(() {});
+        }
+      }
+    });
   }
 
   @override
   void dispose() {
     messageController.dispose();
+    pocketbase.collection('messages').unsubscribe();
 
     super.dispose();
   }
@@ -45,12 +58,34 @@ class _ChatPageState extends State<ChatPage> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Container(
-                  height: 50,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  color: Colors.red,
+            child: FutureBuilder(
+              future: pocketbase.collection("messages").getFullList(
+                    filter: 'chat = "${widget.chat.id}"',
+                  ),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                List<Message> messages = [];
+
+                for (var message in snapshot.data!) {
+                  messages.add(Message.fromJson(message.toJson()));
+                }
+
+                return ListView.builder(
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    final message = messages[index];
+
+                    return Container(
+                      height: 50,
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child: Text(message.message),
+                    );
+                  },
                 );
               },
             ),
