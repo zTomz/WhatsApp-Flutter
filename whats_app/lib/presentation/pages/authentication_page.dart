@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whats_app/extensions/navigation_extension.dart';
+import 'package:whats_app/extensions/theme_extension.dart';
 import 'package:whats_app/pocketbase/pocketbase_app.dart';
-import 'package:whats_app/presentation/pages/calls_page.dart';
-import 'package:whats_app/presentation/pages/chats_page.dart';
-import 'package:whats_app/presentation/pages/community_page.dart';
 import 'package:whats_app/presentation/pages/navigation_page.dart';
-import 'package:whats_app/presentation/pages/updates_page.dart';
 import 'package:whats_app/presentation/widgets/input_field.dart';
 
 class AuthenticationPage extends StatefulWidget {
@@ -45,17 +42,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(isSignIn ? "Login" : "Create Account"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                isSignIn = !isSignIn;
-              });
-            },
-            tooltip: "Switch to ${isSignIn ? "create account" : "sign in"}",
-            icon: const Icon(Icons.person_2_rounded),
-          ),
-        ],
+        backgroundColor: context.colorScheme.surfaceTint,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -103,18 +90,13 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       }
 
                       if (context.mounted) {
-                        context.push(
-                          NavigationPage(
-                            pages: const [
-                              CommunityPage(),
-                              ChatsPage(),
-                              UpdatesPage(),
-                              CallsPage(),
-                            ],
-                          ),
-                        );
+                        context.push(const NavigationPage());
                       }
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: context.colorScheme.primary,
+                      foregroundColor: context.colorScheme.background,
+                    ),
                     child: Text(isSignIn ? "Login" : "Create Account"),
                   ),
                 ),

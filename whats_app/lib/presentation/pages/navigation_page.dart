@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:whats_app/extensions/theme_extension.dart';
+import 'package:whats_app/presentation/pages/calls_page.dart';
+import 'package:whats_app/presentation/pages/chats_page.dart';
+import 'package:whats_app/presentation/pages/community_page.dart';
+import 'package:whats_app/presentation/pages/updates_page.dart';
 
 class NavigationPage extends StatefulWidget {
-  /// List of 4 pages
-  final List<Widget> pages;
-
   const NavigationPage({
     super.key,
-    required this.pages,
-  }) : assert(pages.length == 4, 'Must have 4 pages');
+  });
 
   @override
   State<NavigationPage> createState() => _NavigationPageState();
 }
 
 class _NavigationPageState extends State<NavigationPage> {
-  int currentPage = 0;
+  int currentPage = 1;
+  List<Widget> pages = const [
+    CommunityPage(),
+    ChatsPage(),
+    UpdatesPage(),
+    CallsPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +34,7 @@ class _NavigationPageState extends State<NavigationPage> {
           });
         },
       ),
-      body: widget.pages[currentPage],
+      body: pages[currentPage],
     );
   }
 }
@@ -59,19 +65,24 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 const SizedBox(width: 10),
                 Text(
                   "WhatsApp",
-                  style: context.textTheme.titleLarge,
+                  style: context.textTheme.titleLarge?.copyWith(
+                    fontSize: 23,
+                  ),
                 ),
                 const Spacer(),
                 IconButton(
                   onPressed: () {},
+                  color: context.colorScheme.onBackground,
                   icon: const Icon(Icons.camera_alt_outlined),
                 ),
                 IconButton(
                   onPressed: () {},
+                  color: context.colorScheme.onBackground,
                   icon: const Icon(Icons.search_rounded),
                 ),
                 IconButton(
                   onPressed: () {},
+                  color: context.colorScheme.onBackground,
                   icon: const Icon(Icons.more_vert_rounded),
                 ),
               ],
@@ -88,8 +99,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     alignment: Alignment.center,
                     child: Icon(
                       Icons.groups_rounded,
-                      color:
-                          currentPage == 0 ? context.colorScheme.primary : null,
+                      color: currentPage == 0
+                          ? context.colorScheme.primary
+                          : Colors.grey,
                     ),
                   ),
                 ),
@@ -131,7 +143,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             text,
             style: context.textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.bold,
-              color: currentPage == page ? context.colorScheme.primary : null,
+              color: currentPage == page
+                  ? context.colorScheme.primary
+                  : Colors.grey,
             ),
           ),
         ),

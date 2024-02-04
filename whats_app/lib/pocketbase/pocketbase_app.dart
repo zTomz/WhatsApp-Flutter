@@ -19,8 +19,6 @@ class PocketBaseApp {
           password,
         );
 
-    getUser();
-
     return recordAuth;
   }
 
@@ -37,18 +35,16 @@ class PocketBaseApp {
           body: body,
         );
 
-    getUser();
-
     return recordModel;
   }
 
-  void getUser() {
-    final user = pocketbase.authStore.model as RecordModel;
-    currentUser = User(
-      id: user.getStringValue("id"),
-      username: user.getDataValue("username"),
-      email: user.getStringValue("email"),
-      avatar: user.getStringValue("avatar"),
-    );
+  Future<void> createChat(String name, List<User> users) async {
+    final body = <String, dynamic>{
+      "name": name,
+      "users": users.map((user) => user.id).toList(),
+    };
+
+    // ignore: unused_local_variable
+    final record = await pocketbase.collection('chats').create(body: body);
   }
 }
