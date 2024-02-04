@@ -17,11 +17,135 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  late TextEditingController messageController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    messageController = TextEditingController();
+    messageController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    messageController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ChatAppBar(
         chat: widget.chat,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 50,
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  color: Colors.red,
+                );
+              },
+            ),
+          ),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final span = TextSpan(
+                text: messageController.text,
+                style: const TextStyle(
+                  fontSize: 18,
+                  height: 1,
+                ),
+              );
+              final tp = TextPainter(
+                text: span,
+                maxLines: 6,
+                textDirection: TextDirection.ltr,
+              );
+              tp.layout(
+                maxWidth: constraints.maxWidth,
+              ); // equals the parent screen width
+
+              return Container(
+                height: tp.height + 30,
+                margin: const EdgeInsets.all(10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        height: double.infinity,
+                        decoration: BoxDecoration(
+                          color: context.colorScheme.surfaceTint,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.emoji_emotions_rounded),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: TextField(
+                                  controller: messageController,
+                                  minLines: 1,
+                                  maxLines: 6,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    height: 1,
+                                  ),
+                                  decoration: const InputDecoration.collapsed(
+                                    hintText: "Message",
+                                  ),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.attach_file_rounded),
+                            ),
+                            if (messageController.text.isEmpty)
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.camera_alt_rounded),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    IconButton.filled(
+                      onPressed: () {
+                        if (messageController.text.isEmpty) return;
+                      },
+                      style: IconButton.styleFrom(
+                        backgroundColor: context.colorScheme.primary,
+                        foregroundColor: Colors.white,
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      icon: Icon(
+                        messageController.text.isEmpty
+                            ? Icons.mic_rounded
+                            : Icons.send_rounded,
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
