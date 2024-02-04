@@ -23,18 +23,50 @@ class _NavigationPageState extends State<NavigationPage> {
     CallsPage(),
   ];
 
+  late PageController pageController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    pageController = PageController(
+      initialPage: currentPage,
+    );
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
         currentPage: currentPage,
-        onPageChanged: (page) {
+        onPageChanged: (page) async {
           setState(() {
             currentPage = page;
           });
+
+          await pageController.animateToPage(
+            page,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
+          );
         },
       ),
-      body: pages[currentPage],
+      body: PageView(
+        controller: pageController,
+        onPageChanged: (value) {
+          setState(() {
+            currentPage = value;
+          });
+        },
+        children: pages,
+      ),
     );
   }
 }
