@@ -1,5 +1,5 @@
 import 'package:pocketbase/pocketbase.dart';
-import 'package:whats_app/models/user.dart';
+import 'package:whats_app/models/user/user.dart';
 
 PocketBase pocketbase = PocketBase('http://10.0.2.2:8090');
 
@@ -41,7 +41,7 @@ class PocketBaseApp {
   Future<void> createChat(String name, List<User> users) async {
     final body = <String, dynamic>{
       "name": name,
-      "users": users.map((user) => user.id).toList(),
+      "participants": users.map((user) => user.id).toList(),
     };
 
     // ignore: unused_local_variable

@@ -36,9 +36,9 @@ class MyApp extends StatelessWidget {
           background: const Color(0xFF0B141A),
           brightness: Brightness.dark,
         ),
-        appBarTheme: AppBarTheme(
-          backgroundColor: context.colorScheme.surfaceTint,
-          foregroundColor: context.colorScheme.background,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF1f2c33),
+          foregroundColor: Colors.white,
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: Color(0xFF05a784),

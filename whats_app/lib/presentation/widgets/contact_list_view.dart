@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:whats_app/extensions/theme_extension.dart';
-import 'package:whats_app/models/user.dart';
+import 'package:whats_app/models/user/user.dart';
 import 'package:whats_app/pocketbase/pocketbase_app.dart';
 
 class ContactListView extends StatelessWidget {

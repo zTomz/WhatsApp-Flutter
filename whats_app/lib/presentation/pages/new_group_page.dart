@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whats_app/extensions/navigation_extension.dart';
 import 'package:whats_app/extensions/theme_extension.dart';
-import 'package:whats_app/models/user.dart';
+import 'package:whats_app/models/user/user.dart';
 import 'package:whats_app/presentation/pages/create_group_page.dart';
 import 'package:whats_app/presentation/widgets/contact_list_view.dart';
 
@@ -144,7 +144,7 @@ class _NewGroupPageState extends State<NewGroupPage> {
                     ),
                   ),
                   ContactListView(
-                    onTap: (user) {
+                    onTap: (User user) {
                       setState(() {
                         if (selectedUsers.containsKey(user.id)) {
                           selectedUsers.remove(user.id);
